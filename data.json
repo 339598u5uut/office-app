@@ -1,0 +1,38 @@
+{
+  "user": {
+    "username": "",
+    "password": ""
+  },
+  "contacts": [
+    {
+      "name": "Kat",
+      "contact": "4567",
+      "address": "ghghjjhkkj",
+      "id": 16
+    },
+    {
+      "name": "Yan",
+      "contact": "345",
+      "address": "ghghjjhkkjkjhkjk",
+      "id": 17
+    },
+    {
+      "name": "Rida",
+      "contact": "678",
+      "address": "ffftttooo",
+      "id": 18
+    },
+    {
+      "name": "Olia",
+      "contact": "4567",
+      "address": "ddddfffrrrrr",
+      "id": 19
+    },
+    {
+      "name": "Natali",
+      "contact": "34567",
+      "address": "dddcccvvvvvvvv",
+      "id": 20
+    }
+  ]
+}
