@@ -1,50 +1,56 @@
 import {
-	ADD_CONTACT_REQUEST,
-	ADD_CONTACT_SUCCESS,
-	ADD_CONTACT_ERROR,
-	DELETE_CONTACT_REQUEST,
-	DELETE_CONTACT_SUCCESS,
-	DELETE_CONTACT_ERROR,
 	GET_ALL_CONTACTS_REQUEST,
 	GET_ALL_CONTACTS_SUCCESS,
 	GET_ALL_CONTACTS_ERROR,
+	ADD_CONTACT_REQUEST,
+	ADD_CONTACT_SUCCESS,
+	ADD_CONTACT_ERROR,
 	EDIT_CONTACT_REQUEST,
 	EDIT_CONTACT_SUCCESS,
-	EDIT_CONTACT_ERROR
+	EDIT_CONTACT_ERROR,
+	DELETE_CONTACT_REQUEST,
+	DELETE_CONTACT_SUCCESS,
+	DELETE_CONTACT_ERROR,
 } from "../actions";
 import { DataType } from "../../utils/types";
 import { TContactActions, } from "../actions/contacts";
 
 export type TContactState = {
-	contacts: DataType[];
-	contactsSuccess: boolean;
-	contactsRequest: boolean;
-	contactsError: boolean;
-
 	allContacts: DataType[],
 	allContactsRequest: boolean;
 	allContactsSuccess: boolean;
 	allContactsError: boolean;
 
-	editContactsSuccess: boolean;
-	editContactsRequest: boolean;
-	editContactsError: boolean;
+	addContactRequest: boolean;
+	addContactSuccess: boolean;
+	addContactError: boolean;
+
+	editContactRequest: boolean;
+	editContactSuccess: boolean;
+	editContactError: boolean;
+
+	deleteContactRequest: boolean;
+	deleteContactSuccess: boolean;
+	deleteContactError: boolean;
 }
 
 export const initialState: TContactState = {
-	contacts: [],
-	contactsRequest: false,
-	contactsSuccess: false,
-	contactsError: false,
-
 	allContacts: [],
 	allContactsRequest: false,
 	allContactsSuccess: false,
 	allContactsError: false,
 
-	editContactsSuccess: false,
-	editContactsRequest: false,
-	editContactsError: false,
+	addContactRequest: false,
+	addContactSuccess: false,
+	addContactError: false,
+
+	editContactSuccess: false,
+	editContactRequest: false,
+	editContactError: false,
+
+	deleteContactRequest: false,
+	deleteContactSuccess: false,
+	deleteContactError: false,
 };
 
 export const contactsReducer = (state = initialState, action: TContactActions): TContactState => {
@@ -53,16 +59,14 @@ export const contactsReducer = (state = initialState, action: TContactActions): 
 			{
 				return {
 					...state,
-					contactsRequest: true,
+					allContactsRequest: true,
 				}
 			}
 		case GET_ALL_CONTACTS_SUCCESS:
 			{
 				return {
 					...state,
-					contactsRequest: false,
-					contactsSuccess: true,
-					contactsError: false,
+					allContactsSuccess: true,
 					allContacts: [...action.allContacts],
 				}
 			}
@@ -70,40 +74,36 @@ export const contactsReducer = (state = initialState, action: TContactActions): 
 			{
 				return {
 					...state,
-					contactsRequest: false,
-					contactsError: true,
+					allContactsError: true,
 				};
 			}
 		case ADD_CONTACT_REQUEST:
 			{
 				return {
 					...state,
-					contactsRequest: true,
+					addContactRequest: true,
 				}
 			}
 		case ADD_CONTACT_SUCCESS:
 			{
 				return {
 					...state,
-					contactsRequest: false,
-					contactsSuccess: true,
-					contactsError: false,
-					contacts: [...state.contacts, action.contact],
+					addContactSuccess: true,
+					allContacts: [...state.allContacts, action.contact],
 				}
 			}
 		case ADD_CONTACT_ERROR:
 			{
 				return {
 					...state,
-					contactsRequest: false,
-					contactsError: true,
+					addContactError: true,
 				};
 			}
 		case EDIT_CONTACT_REQUEST:
 			{
 				return {
 					...state,
-					editContactsRequest: true,
+					editContactRequest: true,
 				};
 			}
 		case EDIT_CONTACT_SUCCESS:
@@ -117,9 +117,7 @@ export const contactsReducer = (state = initialState, action: TContactActions): 
 					return {
 						...state,
 						allContacts: [...newState],
-						editContactsSuccess: true,
-						editContactsRequest: false,
-						editContactsError: false,
+						editContactSuccess: true,
 					}
 				}
 			}
@@ -128,15 +126,14 @@ export const contactsReducer = (state = initialState, action: TContactActions): 
 			{
 				return {
 					...state,
-					editContactsRequest: false,
-					editContactsError: true,
+					editContactError: true,
 				};
 			}
 		case DELETE_CONTACT_REQUEST:
 			{
 				return {
 					...state,
-					contactsRequest: true,
+					deleteContactRequest: true,
 				}
 			}
 
@@ -150,7 +147,8 @@ export const contactsReducer = (state = initialState, action: TContactActions): 
 						const newAllContacts = newState.filter((item) => item.id !== newState[i].id)
 						return {
 							...state,
-							allContacts: [...newAllContacts]
+							allContacts: [...newAllContacts],
+							deleteContactSuccess: true,
 						}
 					}
 				}
@@ -160,8 +158,7 @@ export const contactsReducer = (state = initialState, action: TContactActions): 
 			{
 				return {
 					...state,
-					contactsRequest: false,
-					contactsError: true,
+					deleteContactError: true,
 				};
 			}
 		default:
