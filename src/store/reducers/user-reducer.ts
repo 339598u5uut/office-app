@@ -59,15 +59,12 @@ export const userReducer = (state = initialState, action: TUserActions): TUserSt
                     },
                     isAuthenticated: true,
                     loginSuccess: true,
-                    loginRequest: false,
-                    loginError: false,
                 };
             }
         case GET_AUTHORIZATION_ERROR:
             {
                 return {
                     ...state,
-                    loginRequest: false,
                     loginError: true,
                 };
             }
@@ -90,8 +87,6 @@ export const userReducer = (state = initialState, action: TUserActions): TUserSt
                     },
                     loginSuccess: false,
                     logoutSuccess: true,
-                    logoutRequest: false,
-                    logoutError: false,
                     isAuthenticated: false,
                 };
             }
@@ -99,7 +94,6 @@ export const userReducer = (state = initialState, action: TUserActions): TUserSt
             {
                 return {
                     ...state,
-                    logoutRequest: false,
                     logoutError: true,
                 };
             }

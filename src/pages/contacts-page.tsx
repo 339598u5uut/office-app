@@ -25,14 +25,12 @@ export const ContactsPage: FC = () => {
 
 	useEffect(() => {
 		dispatch(getAllContacts());
-	}, [dispatch]);
+	}, []);
 
-	const dataAllContacts = useSelector((state) => state.contacts.allContacts);
-	const dataAddContact = useSelector((state) => state.contacts.contacts);
-	const data = [...dataAllContacts, ...dataAddContact];
+	const data = useSelector((state) => state.contacts.allContacts);
+	const [dataEdit, setData] = useState(data);
 	const logoutSuccess = useSelector((state) => state.user.logoutSuccess);
 	const [editingKey, setEditingKey] = useState('');
-
 	const isEditing = (record: DataType) => record?.id === editingKey;
 
 	const edit = (record: Partial<DataType> & { id: string }) => {
@@ -48,21 +46,16 @@ export const ContactsPage: FC = () => {
 		setData(data);
 	};
 
-	const cancel = () => {
-		setEditingKey('');
-	};
-
-	const [dataEdit, setData] = useState(data);
-	useEffect(() => {
-		dispatch(getAllContacts())
-	}, [dispatch, dataEdit]);
-
 	const handleDelete = async (id: string) => {
 		const row = (await form.validateFields()) as DataType;
 		row.id = id;
 		dispatch(deleteContact(id));
 		setData(data);
 	};
+
+	useEffect(() => {
+		dispatch(getAllContacts());
+	}, [dispatch, dataEdit]);
 
 	const handleSearch = (
 		selectedKeys: string[],
@@ -174,11 +167,10 @@ export const ContactsPage: FC = () => {
 			sorter: (a: DataType, b: DataType) => a.address.length - b.address.length,
 			sortDirections: ['descend', 'ascend'],
 		},
-
 		{
 			title: 'Action',
 			key: 'action',
-			render: (_: any, record: DataType) => {
+			render: (record: DataType) => {
 				const editable = isEditing(record);
 				return editable ? (
 					<>
@@ -286,9 +278,6 @@ export const ContactsPage: FC = () => {
 					bordered
 					columns={mergedColumns}
 					rowClassName="editable-row"
-					pagination={{
-						onChange: cancel,
-					}}
 				/>
 			</Form>
 		</main >

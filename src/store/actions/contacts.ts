@@ -1,16 +1,16 @@
 import checkResponse, {
-	ADD_CONTACT_REQUEST,
-	ADD_CONTACT_SUCCESS,
-	ADD_CONTACT_ERROR,
-	DELETE_CONTACT_REQUEST,
-	DELETE_CONTACT_SUCCESS,
-	DELETE_CONTACT_ERROR,
 	GET_ALL_CONTACTS_REQUEST,
 	GET_ALL_CONTACTS_SUCCESS,
 	GET_ALL_CONTACTS_ERROR,
+	ADD_CONTACT_REQUEST,
+	ADD_CONTACT_SUCCESS,
+	ADD_CONTACT_ERROR,
 	EDIT_CONTACT_REQUEST,
 	EDIT_CONTACT_SUCCESS,
 	EDIT_CONTACT_ERROR,
+	DELETE_CONTACT_REQUEST,
+	DELETE_CONTACT_SUCCESS,
+	DELETE_CONTACT_ERROR,
 
 } from ".";
 import { DataType } from "../../utils/types";
@@ -128,63 +128,6 @@ export const addContact: AppThunk = (form: DataType) => (dispatch: AppDispatch) 
 		})
 }
 
-//DELETE CONTACT
-export type TdeleteContactReq = {
-	readonly type: typeof DELETE_CONTACT_REQUEST;
-}
-
-export type TdeleteContactSucc = {
-	readonly type: typeof DELETE_CONTACT_SUCCESS;
-	readonly contact: DataType;
-}
-
-export type TdeleteContactError = {
-	readonly type: typeof DELETE_CONTACT_ERROR;
-}
-
-export function deleteContactReq(): TdeleteContactReq {
-	return {
-		type: DELETE_CONTACT_REQUEST,
-	}
-}
-
-export function deleteContactSucc(contact: DataType): TdeleteContactSucc {
-	return {
-		type: DELETE_CONTACT_SUCCESS,
-		contact
-	}
-}
-
-export function deleteContactError(): TdeleteContactError {
-	return {
-		type: DELETE_CONTACT_ERROR
-	}
-}
-
-export function deleteContactRequest(contact: DataType) {
-	return fetch(`http://localhost:3000/contacts/${contact}`, {
-		method: 'DELETE',
-		headers: {
-			'Content-type': 'application/json; charset=UTF-8'
-		},
-	})
-		.then(checkResponse)
-		.then(data => {
-			return data;
-		})
-};
-
-export const deleteContact: AppThunk = (contact: DataType) => (dispatch: AppDispatch) => {
-	dispatch(deleteContactReq());
-	deleteContactRequest(contact)
-		.then(res => {
-			dispatch(deleteContactSucc(res));
-			dispatch(getAllContacts());
-		}).catch(err => {
-			dispatch(addContactError());
-		})
-}
-
 //EDIT CONTACT
 export type TeditContactReq = {
 	readonly type: typeof EDIT_CONTACT_REQUEST;
@@ -241,6 +184,63 @@ export const editContact: AppThunk = (contact: DataType) => (dispatch: AppDispat
 			}
 		}).catch(err => {
 			dispatch(editContactError());
+		})
+}
+
+//DELETE CONTACT
+export type TdeleteContactReq = {
+	readonly type: typeof DELETE_CONTACT_REQUEST;
+}
+
+export type TdeleteContactSucc = {
+	readonly type: typeof DELETE_CONTACT_SUCCESS;
+	readonly contact: DataType;
+}
+
+export type TdeleteContactError = {
+	readonly type: typeof DELETE_CONTACT_ERROR;
+}
+
+export function deleteContactReq(): TdeleteContactReq {
+	return {
+		type: DELETE_CONTACT_REQUEST,
+	}
+}
+
+export function deleteContactSucc(contact: DataType): TdeleteContactSucc {
+	return {
+		type: DELETE_CONTACT_SUCCESS,
+		contact
+	}
+}
+
+export function deleteContactError(): TdeleteContactError {
+	return {
+		type: DELETE_CONTACT_ERROR
+	}
+}
+
+export function deleteContactRequest(contact: DataType) {
+	return fetch(`http://localhost:3000/contacts/${contact}`, {
+		method: 'DELETE',
+		headers: {
+			'Content-type': 'application/json; charset=UTF-8'
+		},
+	})
+		.then(checkResponse)
+		.then(data => {
+			return data;
+		})
+};
+
+export const deleteContact: AppThunk = (contact: DataType) => (dispatch: AppDispatch) => {
+	dispatch(deleteContactReq());
+	deleteContactRequest(contact)
+		.then(res => {
+			dispatch(deleteContactSucc(res));
+			dispatch(getAllContacts());
+		}).catch(err => {
+			dispatch(addContactError());
 		})
 }
 
