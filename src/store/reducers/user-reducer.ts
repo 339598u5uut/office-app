@@ -86,6 +86,7 @@ export const userReducer = (state = initialState, action: TUserActions): TUserSt
                         password: action.password,
                     },
                     loginSuccess: false,
+                    loginRequest: false,
                     logoutSuccess: true,
                     isAuthenticated: false,
                 };

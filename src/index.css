@@ -16,28 +16,35 @@ thead tr>.ant-table-cell {
 thead tr>.ant-table-cell,
 .ant-btn-primary:focus,
 .ant-btn-primary:active,
-.ant-btn-ghost {
+.ant-btn-ghost,
+.ant-modal-title,
+.ant-modal-close {
     color: white !important;
 }
 
 .ant-pagination-item-active,
 .ant-input:hover,
-.ant-btn:focus {
+.ant-btn:focus,
+.ant-btn-primary,
+.ant-popover-open,
+.ant-btn-default:hover,
+.ant-btn-ghost:hover {
     border-color: rgba(229, 81, 55, 0.8) !important;
 }
 
-.ant-pagination-item-active a {
+.ant-pagination-item-active a,
+.ant-btn-default:hover {
     color: rgba(0, 0, 0, 0.8) !important;
 }
 
 .ant-btn-primary {
-    border-color: rgba(229, 81, 55, 0.8) !important;
     background: rgba(229, 81, 55, 0.8) !important;
 }
 
 .ant-btn-link,
 .ant-dropdown-open,
-.anticon-search:hover {
+.anticon-search:hover,
+.ant-popover-open {
     color: rgba(229, 81, 55, 0.8) !important;
 }
 
@@ -45,16 +52,26 @@ thead tr>.ant-table-cell,
     border-color: rgba(0, 0, 0, 0.8) !important;
 }
 
-.ant-popover-open {
-    border-color: rgba(229, 81, 55, 0.8) !important;
-    color: rgba(229, 81, 55, 0.8) !important;
+.ant-modal {
+    width: 520px !important;
+    height: 400px !important;
+    top: 270px !important;
+    border-radius: 4px !important;
 }
 
-.ant-btn-default:hover {
-    border-color: rgba(229, 81, 55, 0.8) !important;
-    color: white !important;
+.ant-modal-content {
+    background-color: rgba(0, 0, 0, 0.7) !important;
 }
 
-.ant-btn-ghost:hover {
-    border-color: rgba(229, 81, 55, 0.8) !important;
+.ant-modal-title {
+    font-size: 20px !important;
+}
+
+div.ant-modal-header {
+    border-radius: 4px !important;
+    background: transparent;
+}
+
+div.ant-modal-footer {
+    padding: 15px 16px !important;
 }

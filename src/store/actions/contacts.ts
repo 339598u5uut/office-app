@@ -11,7 +11,6 @@ import checkResponse, {
 	DELETE_CONTACT_REQUEST,
 	DELETE_CONTACT_SUCCESS,
 	DELETE_CONTACT_ERROR,
-
 } from ".";
 import { DataType } from "../../utils/types";
 import { AppDispatch, AppThunk } from "../reducers/root-reducer";
