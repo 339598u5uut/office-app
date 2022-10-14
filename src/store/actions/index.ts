@@ -22,6 +22,8 @@ export const EDIT_CONTACT_REQUEST: 'EDIT_CONTACT_REQUEST' = 'EDIT_CONTACT_REQUES
 export const EDIT_CONTACT_SUCCESS: 'EDIT_CONTACT_SUCCESS' = 'EDIT_CONTACT_SUCCESS';
 export const EDIT_CONTACT_ERROR: 'EDIT_CONTACT_ERROR' = 'EDIT_CONTACT_ERROR';
 
+export const CLOSE_MODAL: 'CLOSE_MODAL' = 'CLOSE_MODAL';
+
 export default function checkResponse(res: Response) {
     if (!res.ok) {
         throw new Error("Сервер не отвечает.");

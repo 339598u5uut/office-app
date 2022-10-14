@@ -1,18 +1,16 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { DeleteOutlined, EditOutlined, LogoutOutlined, SearchOutlined, UserAddOutlined } from '@ant-design/icons';
-import { InputRef, Popconfirm, Button, Input, Space, Table, Form, Typography } from 'antd';
+import { InputRef, Popconfirm, Button, Input, Space, Table, Form, Typography, Modal } from 'antd';
 import type { ColumnsType, ColumnType } from 'antd/es/table';
 import type { FilterConfirmProps } from 'antd/es/table/interface';
 import Highlighter from 'react-highlight-words';
-import Modal from '../components/modal/modal';
 import { useDispatch, useSelector } from '../store/reducers/root-reducer';
 import { Redirect } from 'react-router-dom';
-import { getAllContacts, deleteContact } from '../store/actions/contacts';
+import { getAllContacts, deleteContact, addContact } from '../store/actions/contacts';
 import { logout } from '../store/actions/user';
 import { editContact } from '../store/actions/contacts';
-import FormAddContact from '../components/form-add-contact';
 import { EditableCell } from '../components/editable-cell';
-import { DataType, DataIndex } from '../utils/types';
+import { DataType, DataIndex, TFormContacts } from '../utils/types';
 
 export const ContactsPage: FC = () => {
 
@@ -56,6 +54,29 @@ export const ContactsPage: FC = () => {
 	useEffect(() => {
 		dispatch(getAllContacts());
 	}, [dispatch, dataEdit]);
+
+	const [formModal, setValue] = useState<TFormContacts>({ "name": '', "contact": '', "address": '', "id": '' });
+
+	const onChange = (e: React.ChangeEvent<HTMLInputElement>): void => {
+		setValue({ ...formModal, [e.target.name]: e.target.value });
+	};
+
+	const resetForm = () => {
+		formModal.name = '';
+		formModal.contact = '';
+		formModal.address = '';
+	}
+
+	const handleOkModal = () => {
+		dispatch(addContact(formModal));
+		setOpen(false);
+		resetForm();
+	};
+
+	const handleCancelModal = () => {
+		setOpen(false);
+		resetForm();
+	};
 
 	const handleSearch = (
 		selectedKeys: string[],
@@ -140,6 +161,7 @@ export const ContactsPage: FC = () => {
 			),
 	});
 
+
 	const columns: ColumnsType<DataType> = [
 		{
 			title: 'Name',
@@ -173,29 +195,32 @@ export const ContactsPage: FC = () => {
 			render: (record: DataType) => {
 				const editable = isEditing(record);
 				return editable ? (
-					<>
-						<Typography.Link style={{ marginRight: 52, color: 'rgba(229, 81, 55, 0.8)' }}
-							onClick={() => save(record.id)}
-						>
-							Save
-						</Typography.Link>
-
+					<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+						<span >
+							<Typography.Link style={{ color: 'rgba(229, 81, 55, 0.8)' }}
+								onClick={() => save(record.id)}
+							>
+								Save
+							</Typography.Link>
+						</span>
 						<Popconfirm
 							title="Sure to delete?"
 							onConfirm={() => handleDelete(record.id)}>
 							<Button icon={<DeleteOutlined />}
 							/>
 						</Popconfirm>
-					</>)
+					</div>
+				)
 					: (
-						<div style={{ display: 'flex' }}>
+						<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 							<Button icon={<EditOutlined />}
-								style={{ marginRight: 20 }}
 								onClick={() => edit(record)}>
 							</Button>
 
 							<span style={{ visibility: 'hidden' }}>
-								<Typography.Link onClick={() => save(record.id)}
+								<Typography.Link
+									style={{ color: 'rgba(229, 81, 55, 0.8)' }}
+									onClick={() => save(record.id)}
 									disabled={editingKey !== ''}>
 									Save
 								</Typography.Link>
@@ -212,6 +237,7 @@ export const ContactsPage: FC = () => {
 			}
 		},
 	];
+
 
 	const mergedColumns = columns.map(col => {
 		if (!col.editable) {
@@ -239,12 +265,13 @@ export const ContactsPage: FC = () => {
 		);
 	};
 
+
 	return (
 
 		<main style={{ padding: '40px', paddingTop: '70px' }}>
-
+			<h1 style={{ display: 'inline' }}>My personal account</h1>
 			<Button
-				style={{ float: 'right', marginBottom: '20px', border: '1px solid rgba(229, 81, 55,0.8)' }}
+				style={{ float: 'right', marginBottom: '15px', border: '1px solid rgba(229, 81, 55,0.8)' }}
 				icon={<LogoutOutlined />}
 				onClick={() => {
 					dispatch(logout("", ""));
@@ -254,17 +281,40 @@ export const ContactsPage: FC = () => {
 
 			<Button
 				type="primary"
-				style={{ marginBottom: '20px', marginRight: '50px', float: 'right', backgroundColor: 'rgba(229, 81, 55,0.8)', border: '1px solid rgba(229, 81, 55,0.8)', color: 'white' }}
+				style={{ marginBottom: '15px', marginRight: '50px', float: 'right', backgroundColor: 'rgba(229, 81, 55,0.8)', border: '1px solid rgba(229, 81, 55,0.8)', color: 'white' }}
 				icon={<UserAddOutlined />}
 				onClick={() => setOpen(true)}>Add
 			</Button>
 
-			{open &&
-				<Modal
-					title={'Add contact: '}
-					onClose={() => setOpen(false)}
-					children={<FormAddContact id={''} name={''} contact={0} address={''} />} />
-			}
+			<Modal
+				title="Add contact:"
+				open={open}
+				onOk={handleOkModal}
+				onCancel={handleCancelModal}
+			>
+				<form action="#">
+					<Input
+						placeholder="name"
+						name="name"
+						value={formModal.name}
+						onChange={onChange}
+						style={{ marginBottom: 30 }} />
+
+					<Input
+						placeholder="contacts"
+						name="contact"
+						value={formModal.contact}
+						onChange={onChange}
+						style={{ marginBottom: 30 }} />
+
+					<Input
+						placeholder="address"
+						name="address"
+						value={formModal.address}
+						onChange={onChange} />
+				</form>
+			</Modal>
+
 
 			<Form form={form} component={false} >
 				<Table

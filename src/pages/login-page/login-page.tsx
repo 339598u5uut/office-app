@@ -10,7 +10,6 @@ import { TForm } from '../../utils/types';
 export const LoginPage: React.FC = () => {
 
 	const dispatch = useDispatch();
-	const isAuthenticated = useSelector((state) => state.user.isAuthenticated);
 	const loginSuccess = useSelector((state) => state.user.loginSuccess);
 	const [form, setValue] = useState<TForm>({ "username": '', "password": '' });
 
@@ -23,7 +22,7 @@ export const LoginPage: React.FC = () => {
 		dispatch(login(form));
 	}
 
-	if (isAuthenticated === true || loginSuccess === true) {
+	if (loginSuccess === true) {
 		return (
 			<Redirect
 				to={{
