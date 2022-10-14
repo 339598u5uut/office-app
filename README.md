@@ -1,9 +1,7 @@
 # **Приложение: Личный кабинет**
-*** 
-autorun<iframe title="vimeo-player" src="https://player.vimeo.com/video/760344757?h=581bc0b5e5" width="640" height="274" frameborder="0" allowfullscreen>
 
-***
-</iframe>
+https://user-images.githubusercontent.com/90867396/195892946-c266c96a-e763-4f4e-96c4-b16327307d8c.mp4
+
 ## ТЗ для front-end developer:
 * Напишите приложение личного кабинета.
 * Задание необходимо выполнить на TypeScript, без использования any и ts-ignore. 
